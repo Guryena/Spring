@@ -14,12 +14,11 @@
 	<name>spring_boot_kb_board</name>
 	<description>Board project for Spring Boot</description>
 	
-	<properties>
-		<java.version>11</java.version>
-	</properties>
-
-
-<repositories>
+<properties>
+      <java.version>11</java.version>
+   </properties>
+   
+   <repositories>
       <repository>
          <id>oracle</id>
          <url>http://www.datanucleus.org/downloads/maven2/</url>
@@ -39,16 +38,19 @@
          <scope>runtime</scope>
          <optional>true</optional>
       </dependency>
+      
       <dependency>
          <groupId>org.projectlombok</groupId>
          <artifactId>lombok</artifactId>
          <optional>true</optional>
       </dependency>
+      
       <dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-tomcat</artifactId>
          <scope>provided</scope>
       </dependency>
+      
       <dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-test</artifactId>
@@ -85,15 +87,11 @@
 
       <!-- jstl 라이브러리 -->
       <dependency>
-    <groupId>javax.servlet.jsp.jstl</groupId>
-    <artifactId>jstl-api</artifactId>
-    <version>1.2</version>
-    <type>jar</type>
-</dependency>
+         <groupId>javax.servlet</groupId>
+         <artifactId>jstl</artifactId>
+      </dependency>
+      
    </dependencies>
-
-
-
 
    <build>
       <plugins>
@@ -124,3 +122,5 @@
    </build>
 
 </project>
+   
+   

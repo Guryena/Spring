@@ -13,18 +13,19 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import edu.global.ex.vo.BoardVO;
+import edu.global.ex.vo.EmpVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
-public class BoardDAO {
+public class EmpDAO {
 
    // private DataSource dataSource;
    private String url = "jdbc:oracle:thin:@localhost:1521:xe";
    private String uid = "scott";
    private String upw = "tiger";
 
-   public BoardDAO() {
+   public EmpDAO() {
       try {
          Class.forName("oracle.jdbc.driver.OracleDriver");
       } catch (Exception e) {
@@ -32,36 +33,35 @@ public class BoardDAO {
       }
    }
 
-   public List<BoardVO> boardSelect(){
-      List<BoardVO> boards = new ArrayList<BoardVO>();
+   public List<EmpVO> empSelect(){
+      List<EmpVO> emps = new ArrayList<EmpVO>();
       
       Connection con = null;
       Statement stmt = null;
       ResultSet resultSet = null;
       
       try {
-         String sql = "Select * from mvc_board";
+         String sql = "Select * from EMP";
          
          con = DriverManager.getConnection(url, uid, upw);         
          stmt = con.createStatement();
          resultSet = stmt.executeQuery(sql);
          
          while(resultSet.next()) {
-            int bid = resultSet.getInt("bid");
+            int empno = resultSet.getInt("empno");
             
-            String bname = resultSet.getString("bname");
-            String btitle = resultSet.getString("btitle");
-            String bcontent = resultSet.getString("bcontent");
+            String ename = resultSet.getString("ename");
+            String job = resultSet.getString("job");
+            int mgr = resultSet.getInt("mgr");
             
-            Timestamp bdate = resultSet.getTimestamp("bdate");
+            Timestamp hiredate = resultSet.getTimestamp("hiredate");
                   
-            int bhit = resultSet.getInt("bhit");
-            int bgroup = resultSet.getInt("bgroup");
-            int bstep = resultSet.getInt("bstep");
-            int bindent = resultSet.getInt("bindent");
+            int sal = resultSet.getInt("sal");
+            int comm = resultSet.getInt("comm");
+            int deptno = resultSet.getInt("deptno");
             
-            BoardVO vo = new BoardVO(bid, bname,btitle, bcontent,bdate,bhit,bgroup,bstep,bindent);
-            boards.add(vo);
+            EmpVO vo = new EmpVO(empno, ename, job, mgr, hiredate, sal, comm, deptno);
+            emps.add(vo);
          }
          
       } catch (Exception e) {
@@ -82,43 +82,40 @@ public class BoardDAO {
          }
       }
       
-      return boards;      
+      return emps;      
    }
    
-   
-   
-   public BoardVO contentView(int bid){
-	      BoardVO board = null;
+   public EmpVO contentView(int no){
+	      EmpVO emp = null;
 	      
 	      Connection connection = null;
 	      PreparedStatement preparedStatement = null;
 	      ResultSet resultSet = null;
 	      
 	      try {
-	         String query = "select * from mvc_board where bid = ?"; 
+	         String query = "select * from EMP where empno = ?"; 
 	         
 	         connection = DriverManager.getConnection(url, uid, upw);
 	         preparedStatement = connection.prepareStatement(query);
 	         
-	         preparedStatement.setInt(1, bid);         
+	         preparedStatement.setInt(1, no);         
 	         resultSet = preparedStatement.executeQuery();
 	         
 	         while(resultSet.next()) {
 	            
-	            int id = resultSet.getInt("bid");
+	        	  int emp_no = resultSet.getInt("empno");
+	              
+	              String ename = resultSet.getString("ename");
+	              String job = resultSet.getString("job");
+	              int mgr = resultSet.getInt("mgr");
+	              
+	              Timestamp hiredate = resultSet.getTimestamp("hiredate");
+	                    
+	              int sal = resultSet.getInt("sal");
+	              int comm = resultSet.getInt("comm");
+	              int deptno = resultSet.getInt("deptno");
 	            
-	            String bname = resultSet.getString("bname");
-	            String btitle = resultSet.getString("btitle");
-	            String bcontent = resultSet.getString("bcontent");
-	            
-	            Timestamp bdate = resultSet.getTimestamp("bdate");
-	                  
-	            int bhit = resultSet.getInt("bhit");
-	            int bgroup = resultSet.getInt("bgroup");
-	            int bstep = resultSet.getInt("bstep");
-	            int bindent = resultSet.getInt("bindent");
-	            
-	            board = new BoardVO(id, bname,btitle, bcontent,bdate,bhit,bgroup,bstep,bindent);            
+	              emp = new EmpVO(emp_no, ename, job, mgr, hiredate, sal, comm, deptno);
 	         }   
 	         
 	      } catch (Exception e) {
@@ -141,7 +138,11 @@ public class BoardDAO {
 	         }
 	      }   
 	      
-	      return board;      
+	      return emp;      
 	   }
+   
+   
+   
+   
    
 }

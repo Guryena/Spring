@@ -8,20 +8,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.global.ex.service.BoardService;
+import edu.global.ex.service.EmpService;
 import edu.global.ex.vo.BoardVO;
+import edu.global.ex.vo.EmpVO;
 import edu.global.ex.vo.GradeVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j //log
 @Controller
-@RequestMapping("/jboard/*")
+@RequestMapping("/emp/*")
 @RequiredArgsConstructor
-public class BoardController {
+public class EmpController {
 
 	
 	@Autowired
-	private BoardService boardService; //injection
+	private EmpService empService; //injection
 	
 //	@Autowired
 //	private GradeVO gradeVO;
@@ -33,22 +35,24 @@ public class BoardController {
 		
 //		System.out.println("gradeVO");
 		
-		model.addAttribute("boards", boardService.getList());
+		model.addAttribute("emps", empService.getList());
 		
-		return "/board/list";
+		return "/emp/emp_list";
 	}
 	
 	
 	@GetMapping("/content_view")
-	public String content_view(BoardVO boardVO, Model model) {
+	public String content_view(EmpVO empVO, Model model) {
 		log.info("content_view()..");
 		
-		int bid = boardVO.getBid();
+		int empno = empVO.getEmpno();
 		
-		boardVO = boardService.get(bid);
+		empVO = empService.get(empno);
 
-		model.addAttribute("content_view", boardVO);
-		return "/board/content_view";
+		model.addAttribute("content_view", empVO);
+		return "/emp/content_view";
 	}
+	
+	
 	
 }
