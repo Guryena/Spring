@@ -7,11 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import edu.global.ex.repository.Criteria;
 import edu.global.ex.service.BoardService;
 import edu.global.ex.service.EmpService;
 import edu.global.ex.vo.BoardVO;
 import edu.global.ex.vo.EmpVO;
 import edu.global.ex.vo.GradeVO;
+import edu.global.ex.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,6 +55,32 @@ public class EmpController {
 		return "/emp/content_view";
 	}
 	
+	
+	// http://localhost:8282/list2
+	// list2?pageNum=5&amount=10">1</a>
+	@GetMapping("/list2")
+	public String list2(Criteria cri, Model model) {
+		log.info("list2() ..");
+		log.info("list2() Criteria " + cri);
+
+		model.addAttribute("empDepts", empService.getList(cri));
+
+		int total = empService.getTotal();
+		log.info("total" + total);
+
+		model.addAttribute("pageMaker", new PageVO(cri, total));
+
+		return "/emp/emp_list2";
+	}
+	
+	@GetMapping("/dept1")
+	public String dept1() {
+		log.info("dept1()..");
+		
+		System.out.println(empService.getEmpDeptVOList());
+		
+		return "/emp/emp_list2";
+	}
 	
 	
 }

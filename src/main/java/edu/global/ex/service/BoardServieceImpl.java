@@ -6,10 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.global.ex.dao.BoardDAO;
-import edu.global.ex.vo.BoardMapper;
 import edu.global.ex.vo.BoardVO;
 import edu.global.ex.vo.GradeVO;
+import edu.global.ex.mapper.BoardMapper;
+import edu.global.ex.repository.BoardDAO;
+import edu.global.ex.repository.Criteria;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,6 @@ public class BoardServieceImpl implements BoardService{
 //	@Autowired //Constructor injection 
 //	private GradeVO gradeVO;
 
-	@Autowired
-	private final BoardMapper mapper;
 	
 //	@Autowired
 //	public BoardServieceImpl(GradeVO gradeVO) {
@@ -42,24 +41,72 @@ public class BoardServieceImpl implements BoardService{
 //		this.gradeVO = gradeVO;
 //	}
 	
+	@Autowired
+	private final BoardMapper mapper;
+
 	@Override
 	public List<BoardVO> getList() {
 		// TODO Auto-generated method stub
 		log.info("getList()");
 		
 //		return dao.boardSelect();
-		return mapper.getlist();
+		return mapper.getList();
 	}
 
 	@Override
-	public BoardVO get(int bno) {
+	public BoardVO get(int bid) {
 		// TODO Auto-generated method stub
 		
-		log.info("get(int bno)..");
+		log.info("get(int bid)..");
 		
 //		return dao.contentView(bno);
-		return null;
+		return mapper.read(bid);
 	}
+
+	@Override
+	public int modify(BoardVO board) {
+		// TODO Auto-generated method stub
+		log.info("modify()..");
+		
+		return mapper.update(board);
+	}
+
+	@Override
+	public int remove(BoardVO board) {
+		// TODO Auto-generated method stub
+		log.info("delete()..");
+		return mapper.delete(board);
+	}
+
+	@Override
+	public int register(BoardVO board) {
+		// TODO Auto-generated method stub
+		log.info("register()..");
+		return mapper.insert(board);
+	}
+
+	@Override
+	public void registerReply(BoardVO board) {
+		// TODO Auto-generated method stub
+		mapper.updateShape(board);
+		mapper.insertReply(board);
+		
+	}
+
+	@Override
+	public List<BoardVO> getList(Criteria cri) {
+		// TODO Auto-generated method stub
+		log.info("getList(Criteria cri)..");
+		return mapper.getListWithPaging(cri);
+	}
+
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		log.info("getTotal()..");
+		return mapper.getTotalCount();
+	}
+
 	
 	
 

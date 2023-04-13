@@ -6,9 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.global.ex.dao.BoardDAO;
-import edu.global.ex.dao.EmpDAO;
+import edu.global.ex.mapper.DeptMapper;
+import edu.global.ex.mapper.EmpMapper;
+import edu.global.ex.repository.BoardDAO;
+import edu.global.ex.repository.Criteria;
+import edu.global.ex.repository.EmpDAO;
 import edu.global.ex.vo.BoardVO;
+import edu.global.ex.vo.EmpDeptVo;
 import edu.global.ex.vo.EmpVO;
 import edu.global.ex.vo.GradeVO;
 import lombok.AllArgsConstructor;
@@ -23,23 +27,68 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor // Lombok으로 스프링에서 DI(의존성 주입)의 방법 중에 생성자 주입을 임의의 코드없이 자동으로 설정해주는 어노테이션이다.
 public class EmpServieceImpl implements EmpService {
 
+//	@Autowired
+//	private final EmpDAO empDAO;
+//
+//	@Override
+//	public List<EmpVO> getList() {
+//		// TODO Auto-generated method stub
+//		log.info("getList()..");
+//
+//		return empDAO.empSelect();
+//	}
+//
+//	@Override
+//	public EmpVO get(int empno) {
+//		// TODO Auto-generated method stub
+//		log.info("content_view..");
+//		return empDAO.contentView(empno);
+//	}
+	
 	@Autowired
-	private final EmpDAO empDAO;
+	private final EmpMapper mapper;
 
 	@Override
 	public List<EmpVO> getList() {
 		// TODO Auto-generated method stub
 		log.info("getList()..");
-
-		return empDAO.empSelect();
+		return mapper.getList();
 	}
 
 	@Override
 	public EmpVO get(int empno) {
 		// TODO Auto-generated method stub
-		log.info("content_view..");
-		return empDAO.contentView(empno);
+		log.info("get(int empno)..");
+		return mapper.read(empno);
 	}
+
+	@Override
+	public List<EmpVO> getList(Criteria cri) {
+		// TODO Auto-generated method stub
+		log.info("getList(Criteria cri)..");
+		return mapper.getListWithPaging(cri);
+	}
+
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		log.info("getTotal()..");
+		return mapper.getTotalCount();
+	}
+
+	
+	@Autowired
+	private final DeptMapper deptMapper;
+
+	@Override
+	public List<EmpDeptVo> getEmpDeptVOList() {
+		// TODO Auto-generated method stub
+		return deptMapper.getEmpDeptOneVOList();
+	}
+	
+	
+	
+	
 	
 
 }

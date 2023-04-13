@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.global.ex.mapper.EmpMapper"> <!--interface name -->
+
+	<select id="getList" resultType="edu.global.ex.vo.EmpVO">
+  				
+     <![CDATA[
+      select * from emp
+   ]]>
+	</select>
+
+	<select id="read" resultType="edu.global.ex.vo.EmpVO">
+  				
+     <![CDATA[
+      select * from emp where empno = #{empno}
+   ]]>
+		<!--파라미터를 남길때는 # -->
+	</select>
+
+		<select id="getTotalCount" resultType="int">
+		<![CDATA[
+			select count(*) from emp
+		]]>
+	</select>
+
+	<select id="getListWithPaging" resultType="edu.global.ex.vo.EmpVO">
+		<![CDATA[
+			SELECT * FROM (
+   				SELECT ROWNUM AS RNUM, A.* FROM (
+     			   SELECT * FROM EMP ORDER BY ENAME ASC
+   				) A WHERE ROWNUM <= #{pageNum} * #{amount}
+			) WHERE RNUM > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+
+</mapper>

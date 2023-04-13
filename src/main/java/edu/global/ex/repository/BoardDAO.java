@@ -1,4 +1,4 @@
-package edu.global.ex.dao;
+package edu.global.ex.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
