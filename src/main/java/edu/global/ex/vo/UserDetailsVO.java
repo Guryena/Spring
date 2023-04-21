@@ -20,6 +20,9 @@ public class UserDetailsVO implements UserDetails {
 		this.setUsername(user.getUsername());
 	}
 
+	public String getCart() {
+		return "this is cart";
+	}
 	// setter
 	public void setUsername(String username) {
 		this.username = username;
