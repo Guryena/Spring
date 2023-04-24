@@ -1,14 +1,17 @@
 package edu.global.ex.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import edu.global.ex.security.CustomUserDetailsService;
+import edu.global.ex.vo.UserVO;
 
 @Configuration  // @Component + 의미
 @EnableWebSecurity //스프링 세큐리티 필터가 스프링 필터체인에 등록됨
@@ -17,12 +20,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
 	
+	@Bean    	//create object = @Compnent
+	public PasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public UserVO userVO() {
+		UserVO vo = new UserVO();
+		vo.setUsername("namevo");
+		vo.setPassword("pwvo");
+		
+		return vo;
+	}
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// TODO Auto-generated method stub
 	      //우선 CSRF설정을 해제한다.
 	      //초기 개발시만 해주는게 좋다.
-		http.csrf().disable();
+//		http.csrf().disable();
 		
 	     http.authorizeRequests()
 	      .antMatchers("/user/**").hasAnyRole("USER")

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import edu.global.ex.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,13 @@ class UserMapperTest {
 
 	@Autowired
 	private UserMapper userMapper;
-
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UserVO userVO;
+	
 	@Test
 	void testInserUser() {
 
@@ -28,7 +35,8 @@ class UserMapperTest {
 
 		UserVO user = new UserVO();
 		user.setUsername("kim3");
-		user.setPassword(new BCryptPasswordEncoder().encode("1234"));
+//		user.setPassword(new BCryptPasswordEncoder().encode("1234"));
+		user.setPassword(passwordEncoder.encode("1234"));
 		user.setEnabled(1);
 
 		userMapper.insertUser(user);
@@ -46,5 +54,26 @@ class UserMapperTest {
 		userMapper.insertUser(user);
 		userMapper.insertAdminAuthorities(user);
 	}
+
+	
+	
+	@Test
+	void testPasswordEncoder() {
+		String plainPW = "1234";
+//		String encodedPW = new BCryptPasswordEncoder().encode(plainPW);
+		String encodedPW = passwordEncoder.encode(plainPW);
+		
+		System.out.println(plainPW + " : " + encodedPW);
+		System.out.println(passwordEncoder.matches(plainPW, encodedPW)); //plainPW to comparison encodedPW
+		System.out.println(userVO);
+		
+//		assertNotEquals(plainPW, encodedPW);
+//		assertEquals(plainPW, encodedPW);
+		
+		
+		assertTrue(new BCryptPasswordEncoder().matches(plainPW, encodedPW));
+		
+	}
+	
 
 }
